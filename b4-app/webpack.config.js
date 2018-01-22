@@ -31,7 +31,14 @@ module.exports = {
 
 	devServer: {
 		contentBase: distDir,
-		port: 60800
+		port: 60800,
+		proxy: {
+			'/api': 'http://localhost:60702',
+			'/es': {
+				target: 'http://localhost:9200',
+				pathRewrite: {'^/es': ''}
+			}
+		}
 	},
 
 	plugins: [

@@ -7,8 +7,24 @@ document.body.innerHTML = templates.main();
 const mainElement = document.body.querySelector('.b4-main');
 const alertsElement = document.body.querySelector('.b4-alerts');
 
-mainElement.innerHTML = templates.welcome();
-alertsElement.innerHTML = templates.alert({
-	type: 'info',
-	message: 'Handlebars is working'
-});
+
+/**
+ *  Use Window Location hash to show the specified view
+ */
+
+const showView = async () => {
+	const [view, ...params] = window.location.hash.split('/');
+
+	switch (view) {
+		case '#welcome':
+			mainElement.innerHTML = templates.welcome();
+			break;
+		default:
+			//unrecognised view
+			throw Error(`Unrecognised view: ${view}`);
+	}
+};
+
+window.addEventListener('hashchange', showView);
+
+showView().catch(err => window.location.hash = '#welcome');
