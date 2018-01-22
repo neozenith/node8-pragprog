@@ -1,0 +1,23 @@
+{
+  "name": "b4",
+  "version": "1.0.0",
+  "description": "Basic Book Bundle Builder (B4)",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Josh Peak",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "nconf": "^0.10.0",
+    "nodemon": "^1.14.11",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.15.0"
+  }
+}
