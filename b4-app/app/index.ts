@@ -12,7 +12,7 @@ const listBundles = bundles => {
 };
 
 const getBundles = async () => {
-	const esRes = await fetch('es/b4/bundle/_search?size=1000');
+	const esRes = await fetch('/es/b4/bundle/_search?size=1000');
 
 	const esResBody = await esRes.json();
 
