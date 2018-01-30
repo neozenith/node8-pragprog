@@ -7,8 +7,21 @@ document.body.innerHTML = templates.main();
 const mainElement = document.body.querySelector('.b4-main');
 const alertsElement = document.body.querySelector('.b4-alerts');
 
+const showAlert = (message, type = 'danger') => {
+	const html = templates.alert({type, message});
+	alertsElement.insertAdjacentHTML('beforeend', html);
+};
+
 const listBundles = bundles => {
-	mainElement.innerHTML = templates.listBundles({bundles});
+	mainElement.innerHTML = templates.addBundleForm() +
+		templates.listBundles({bundles});
+
+	const form = mainElement.querySelector('form');
+	form.addEventListener('submit', event => {
+		event.preventDefault();
+		const name = form.querySelector('input').value;
+		addBundle(name);
+	});
 };
 
 const getBundles = async () => {
@@ -20,6 +33,26 @@ const getBundles = async () => {
 		id: hit._id,
 		name: hit._source.name,
 	}));
+};
+
+const addBundle = async name => {
+	try {
+
+		// Grab the list of bundles already created
+		const bundles = await getBundles();
+
+		const url = `/api/bundle?name=${encodeURIComponent(name)}`;
+		const res = await fetch(url, {method: 'POST'});
+		const resBody = await res.json();
+
+		bundles.push({id: resBody._id, name});
+		listBundles(bundles);
+
+		showAlert(`Bundle "${name}" created!`, 'success');
+
+	} catch (err) {
+		showAlert(err);
+	}
 };
 
 /**

@@ -21,7 +21,6 @@ export const alert = HandleBars.compile(`
 			<span aria-hidden="true">&times;</span>
 		</button>
 		{{message}}
-		<strong>Success!</strong> Bootstrap is working.
 	</div>
 `);
 
@@ -49,4 +48,21 @@ export const listBundles = HandleBars.compile(`
 			<div class="panel-body"><p>None yet!</p></div>
 		{{/if}}
 	</div>
+`);
+
+export const addBundleForm = HandleBars.compile(`
+	<div class="panel panel-default">
+		<div class="panel-heading">Create a new bundle.</div>
+		<div class="panel-body">
+			<form>
+				<div class="input-group">
+					<input class="form-control" placeholder="Bundle Name" />
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="submit">Create</button>
+					</span>
+				</div>
+			</form>
+		</div>
+	</div>
+
 `);
