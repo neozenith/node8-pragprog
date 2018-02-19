@@ -26,7 +26,8 @@ const handleResponse = (err, res, body) => {
 	}
 };
 
-program.version(pkg.version)
+program
+	.version(pkg.version)
 	.description(pkg.description)
 	.usage('[options] <command> [...]')
 	.option('-o, --host <hostname>', 'hostname [localhost]', 'localhost')
@@ -36,11 +37,13 @@ program.version(pkg.version)
 	.option('-t --type <type>', 'default type for bulk operations')
 	.option('-f --filter <filter>', 'source filter for query results');
 
-program.command('url [path]')
+program
+	.command('url [path]')
 	.description('generate the URL for the options and path (default is /)')
 	.action((path = '/') => console.log(fullUrl(path)));
 
-program.command('get [path]')
+program
+	.command('get [path]')
 	.description('perform an HTTP GET request for path (default is /)')
 	.action((path = '/') => {
 		const options = {
@@ -49,20 +52,19 @@ program.command('get [path]')
 		};
 
 		request(options, (err, res, body) => {
-
 			if (program.json) {
 				console.log(JSON.stringify(err || body));
 			} else {
 				if (err) throw err;
 				console.log(body);
-			};
+			}
 		});
-
 	});
 
-program.command('bulk <file>')
+program
+	.command('bulk <file>')
 	.description('read and perform bulk options from the specified file')
-	.action((file) => {
+	.action(file => {
 		fs.stat(file, (err, stats) => {
 			if (err) {
 				if (program.json) {
@@ -86,22 +88,26 @@ program.command('bulk <file>')
 			const fileStream = fs.createReadStream(file);
 			fileStream.pipe(bulkRequest); //pipe fileStream into bulkRequest
 			bulkRequest.pipe(process.stdout); //pipe bulkRequest output to stdout
-
 		});
 	});
 
-program.command('list-indices')
+program
+	.command('list-indices')
 	.description('List the indices in this cluster')
 	.alias('li')
 	.action(() => {
 		const path = program.json ? '_all' : '_cat/indices?v';
-		request({
-			url: fullUrl(path),
-			json: program.json
-		}, handleResponse);
+		request(
+			{
+				url: fullUrl(path),
+				json: program.json
+			},
+			handleResponse
+		);
 	});
 
-program.command('create-index')
+program
+	.command('create-index')
 	.description('create an index')
 	.action(() => {
 		if (!program.index) {
@@ -112,14 +118,13 @@ program.command('create-index')
 		}
 
 		request.put(fullUrl(), handleResponse);
-
 	});
 
-program.command('query [queries...]')
+program
+	.command('query [queries...]')
 	.alias('q')
 	.description('perform and ELasticsearch query')
 	.action((queries = []) => {
-
 		const options = {
 			url: fullUrl('_search'),
 			json: program.json,
