@@ -28,8 +28,22 @@ const servicePort = serviceUrl.port || (serviceUrl.protocol === 'https:' ? 443 :
 // Express and middleware.
 const express = require('express');
 const morgan = require('morgan');
+const expressSession = require('express-session');
 
 const app = express();
+if (isDev) {
+	const FileStore = require('session-file-store')(expressSession);
+	app.use(
+		expressSession({
+			resave: false,
+			saveUninitialized: true,
+			secret: 'espresso',
+			store: new FileStore()
+		})
+	);
+} else {
+	// use redis in production
+}
 
 app.use(morgan('dev'));
 
