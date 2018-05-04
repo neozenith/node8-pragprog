@@ -52,6 +52,10 @@ export const welcome = Handlebars.compile(`
 							Sign in with Google
 							<span class="fa fa-google"> </span>
 						</a>
+						<a href="/auth/linkedin" class="btn btn-block btn-social btn-linkedin">
+							Sign in with LinkedIn
+							<span class="fa fa-linkedin"> </span>
+						</a>
 					</ div >
 				</ div >
 		{{/ if}}
